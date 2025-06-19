@@ -1,0 +1,107 @@
+
+var featured = document.querySelector("#featured");
+var daily = document.querySelector("#daily");
+var today = new Date().toLocaleString(); // 11/16/2015, 11:18:48 PM
+document.querySelector("#DATE").innerHTML = today; 
+
+
+axios.get('https://fortnite-public-api.theapinetwork.com/prod09/store/get')
+  .then(function (response) {
+   function create_item() {
+      wrapper.classList = "wrapper"; 
+      img.src = response.data.items[i].item.images.information;
+      wrapper.appendChild(img); 
+    }
+    // handle success
+   $(function() {
+     $(".wrapper img").each(function(){
+       $(this).click(function(e) {
+         console.log("pclick"+ $(e.target));
+       })
+     })   
+   })   
+    for(var i = 0; i < response.data.items.length; i++){
+      var wrapper = document.createElement("div");
+      var img = document.createElement("IMG");
+      let item_rarity = response.data.items[i].item.rarity;
+      let item_featured = response.data.items[i].featured;
+      let item_featured_showcase = response.data.items[i].item.images.featured.transparent;
+      let item_type = response.data.items[i].item.type;
+
+      let item_name = response.data.items[i].name
+      let next_item_name = response.data.items[i+1].name;
+     
+      create_item();
+      if ( item_rarity == "legendary" ) {
+        wrapper.className += " " + "legendary";
+        img.src = response.data.items[i].item.images.transparent;
+
+      } else if (item_rarity == "epic"){
+        img.src = response.data.items[i].item.images.transparent;
+        wrapper.className += " " + "epic";
+      } else if (item_rarity == "rare"){
+        wrapper.className += " " + "rare";
+      } else if (item_rarity == "uncommon"){
+        wrapper.className += " " + "uncommon";
+      }
+      if (item_featured == "1" && item_rarity == "legendary" && item_type != "emote") 
+        {
+          if (item_type == "pickaxe") 
+          {
+            img.src = response.data.items[i].item.images.transparent;
+            wrapper.className += " " + "featured" + " " + "showcase-legendary"; 
+            featured.appendChild(wrapper);
+          } else 
+          {
+            img.src = response.data.items[i].item.images.featured.transparent;
+            wrapper.className += " " + "featured" + " " + "showcase-legendary"; 
+            featured.appendChild(wrapper);
+          }
+                  
+        }
+      else if (item_featured == "1" && item_rarity == "epic" && item_type != "emote") 
+        {
+          if (item_type == "pickaxe") 
+          {
+            img.src = response.data.items[i].item.images.transparent;
+            wrapper.className += " " + "featured" + " " + "showcase-epic"; 
+            featured.appendChild(wrapper);
+          } else 
+          {
+            img.src = response.data.items[i].item.images.featured.transparent;
+            wrapper.className += " " + "featured" + " " + "showcase-epic"; 
+            featured.appendChild(wrapper);
+          }
+                
+        }  
+      else
+        {
+          wrapper.className += " " + "daily";
+          daily.appendChild(wrapper);
+        }
+      
+         
+      
+    } //end for loop
+
+    // document.querySelector(".wrapper").forEach(function(){
+    //   console.log("clicked")
+    //   this.addEventListener("click", function(){
+    //     console.log("clicked" + i)
+    //   })
+    // })
+
+}) // end .then
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
+
+
+ 
+ 
+ 
+ 
