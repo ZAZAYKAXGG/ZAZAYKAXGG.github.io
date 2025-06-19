@@ -1,1 +1,0 @@
-# ZAZAYKAXGG.github.io
